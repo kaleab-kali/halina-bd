@@ -1,73 +1,61 @@
-# React + TypeScript + Vite
+# 🎉 Helina Solomon's Birthday Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An elegant, dark-mode birthday celebration website built with React, TypeScript, Vite, Tailwind CSS, and Framer Motion.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Cinematic Opening**: Prescription-themed 5-second intro animation
+- **Magazine Cover Hero**: Vogue-style landing with parallax effects
+- **Identity Reveals**: Showcase of Healer, Culture Icon, and Unstoppable personas
+- **Favorite Child Showcase**: Crown animation with Ethiopian flag confetti
+- **Active Ingredients**: Interactive pill bottles with heart animations
+- **Photo Gallery**: Luxury magazine-style grid with lightbox
+- **Habesha Spotlight**: Image comparison slider for Ethiopian dress photos
+- **Interactive Flip Cards**: 10 compliment cards with 3D flip animations
+- **Make a Wish**: Interactive birthday cake with candle-blowing
+- **Birthday Playlist**: Spotify-style music player design
+- **Final Message**: Personalized prescription message
+- **Surprise Ending**: Hidden P.S. section with confetti
 
-## React Compiler
+## 🚀 Quick Start
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+### 1. Add Images
+Place your photos in `public/images/` directory. See [IMAGE_SETUP.md](./IMAGE_SETUP.md) for details.
 
-## Expanding the ESLint configuration
+Required: cover-selfie.jpg, pharmacist.jpg, habesha1-2.jpg, gym1-3.jpg, favorite-child.jpg, selfie1-7.jpg
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 2. Customize (Optional)
+- Update birthday date, message in `src/App.tsx`
+- Edit photo compliments in `src/components/sections/PhotoGallery.tsx`
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 3. Run
+```bash
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Visit http://localhost:5173
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 4. Build
+```bash
+npm run build
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🎨 Design
+
+- Colors: Deep black, crimson red, rose pink, gold
+- Ethiopian geometric patterns
+- Smooth scroll animations
+- Responsive mobile-first
+- Custom crimson scrollbar
+
+## 🛠️ Tech Stack
+
+React 19 • TypeScript • Vite • Tailwind CSS 4 • Framer Motion • Lucide React
+
+## 📂 Structure
+
+```
+src/components/sections/ - All page sections
+src/assets/patterns/ - Ethiopian SVG patterns
+public/images/ - Your photos go here
 ```
