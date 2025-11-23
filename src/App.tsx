@@ -60,9 +60,9 @@ function App() {
 
       {showMainContent && (
         <>
-          <MagazineCover coverImage={coverImage?.src || '/src/assets/images/1.jpg'} />
+          <MagazineCover coverImage={coverImage?.src || '/images/1.jpg'} />
           <IdentityReveal />
-          <FavoriteChild image={favoriteMedia[0]?.src || '/src/assets/images/62.png'} />
+          <FavoriteChild image={favoriteMedia[0]?.src || '/images/62.png'} />
           <PillBottles />
           <PhotoGallery />
           <HabeshaSpotlight images={habeshaMedia.map(m => m.src)} />
