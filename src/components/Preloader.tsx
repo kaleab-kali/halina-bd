@@ -1,28 +1,66 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { mediaItems } from '../config/mediaConfig';
 
 export const Preloader = ({ onComplete }: { onComplete: () => void }) => {
   const [progress, setProgress] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
+  const [loadedCount, setLoadedCount] = useState(0);
 
   useEffect(() => {
-    // Simulate loading progress
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setTimeout(() => {
-            setIsComplete(true);
-            setTimeout(onComplete, 500);
-          }, 300);
-          return 100;
-        }
-        return prev + 10;
-      });
-    }, 150);
+    // Get priority media (cover, pharmacist, habesha, gym, favorite - first few from each)
+    const priorityMedia = mediaItems.filter(item =>
+      item.category === 'cover' ||
+      item.category === 'pharmacist' ||
+      item.category === 'habesha' ||
+      item.category === 'gym' ||
+      item.category === 'favorite'
+    ).slice(0, 20); // Load first 20 priority items
 
-    return () => clearInterval(interval);
-  }, [onComplete]);
+    const totalItems = priorityMedia.length;
+    let loaded = 0;
+
+    const updateProgress = () => {
+      loaded++;
+      setLoadedCount(loaded);
+      const percentage = Math.round((loaded / totalItems) * 100);
+      setProgress(percentage);
+
+      if (loaded >= totalItems) {
+        setTimeout(() => {
+          setIsComplete(true);
+          setTimeout(onComplete, 500);
+        }, 300);
+      }
+    };
+
+    // Preload each media item
+    priorityMedia.forEach((item) => {
+      if (item.type === 'video') {
+        const video = document.createElement('video');
+        video.preload = 'metadata';
+        video.src = item.src;
+        video.onloadedmetadata = updateProgress;
+        video.onerror = updateProgress; // Continue even if one fails
+      } else {
+        const img = new Image();
+        img.src = item.src;
+        img.onload = updateProgress;
+        img.onerror = updateProgress; // Continue even if one fails
+      }
+    });
+
+    // Fallback timeout in case some media fails to load
+    const timeout = setTimeout(() => {
+      if (progress < 100) {
+        setProgress(100);
+        setIsComplete(true);
+        setTimeout(onComplete, 500);
+      }
+    }, 15000); // 15 second max wait
+
+    return () => clearTimeout(timeout);
+  }, [onComplete, progress]);
 
   return (
     <AnimatePresence>
@@ -43,7 +81,7 @@ export const Preloader = ({ onComplete }: { onComplete: () => void }) => {
                 Helina
               </h1>
               <p className="text-[#FFB6C1] text-lg md:text-xl tracking-widest">
-                Birthday Experience Loading...
+                Loading Your Special Day...
               </p>
             </motion.div>
 
@@ -57,14 +95,19 @@ export const Preloader = ({ onComplete }: { onComplete: () => void }) => {
               />
             </div>
 
-            {/* Progress percentage */}
-            <motion.p
-              className="text-white/60 text-sm"
-              animate={{ opacity: [0.5, 1, 0.5] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            >
-              {progress}%
-            </motion.p>
+            {/* Progress info */}
+            <div className="space-y-2">
+              <motion.p
+                className="text-white text-2xl font-bold"
+                animate={{ opacity: [0.7, 1, 0.7] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                {progress}%
+              </motion.p>
+              <p className="text-white/40 text-xs">
+                Loading media {loadedCount}/20
+              </p>
+            </div>
 
             {/* Loading dots */}
             <div className="flex justify-center space-x-3">
