@@ -73,7 +73,6 @@ export const FinalMessage = ({
 
               <div className="mt-8 text-center text-gray-500 text-sm">
                 <p>🌹 Happy Birthday, Helina 🌹</p>
-                <p className="mt-2 text-xs">Generated with [Claude Code]</p>
               </div>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { X, ChevronLeft, ChevronRight, Play } from 'lucide-react';
-import { getSelfieMedia, MediaItem } from '../../config/mediaConfig';
+import { getSelfieMedia, type MediaItem } from '../../config/mediaConfig';
 
 export const PhotoGallery = () => {
   const ref = useRef(null);

@@ -44,7 +44,7 @@ function App() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white overflow-x-hidden">
       {/* Google Analytics - Replace G-XXXXXXXXXX with your tracking ID */}
-      <GoogleAnalytics measurementId="G-XXXXXXXXXX" />
+      <GoogleAnalytics measurementId="G-8HKPESQ2L4" />
 
       {/* Preloader */}
       {showPreloader && <Preloader onComplete={handlePreloaderComplete} />}

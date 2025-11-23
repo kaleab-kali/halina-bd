@@ -13,11 +13,11 @@ export const PrescriptionOpening = ({
   const [showPrescription, setShowPrescription] = useState(false);
 
   useEffect(() => {
-    // Start prescription animation after 1 second
-    const timer1 = setTimeout(() => setShowPrescription(true), 1000);
+    // Start prescription animation after 1.5 seconds
+    const timer1 = setTimeout(() => setShowPrescription(true), 1500);
 
-    // Complete and transition after 5 seconds
-    const timer2 = setTimeout(() => onComplete(), 5000);
+    // Complete and transition after 10 seconds
+    const timer2 = setTimeout(() => onComplete(), 10000);
 
     return () => {
       clearTimeout(timer1);

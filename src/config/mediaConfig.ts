@@ -33,9 +33,9 @@ export const mediaItems: MediaItem[] = [
   { src: '/src/assets/images/15.mp4', type: 'video', category: 'gym' },
   { src: '/src/assets/images/16.mp4', type: 'video', category: 'gym' },
 
-  // Favorite child
-  { src: '/src/assets/images/62.png', type: 'image', category: 'favorite' },
+  // Favorite child (pick one best photo showing her name on items)
   { src: '/src/assets/images/73.jpg', type: 'image', category: 'favorite' },
+  { src: '/src/assets/images/62.png', type: 'image', category: 'favorite' },
 
   // Selfies and general content (rest of the media)
   { src: '/src/assets/images/17.mp4', type: 'video', category: 'selfie', compliment: 'Absolutely Stunning' },

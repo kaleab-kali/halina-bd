@@ -7,8 +7,10 @@ interface MagazineCoverProps {
 }
 
 export const MagazineCover = ({
-  coverImage = '/images/cover-selfie.jpg'
+  coverImage = '/src/assets/images/1.jpg'
 }: MagazineCoverProps) => {
+  // Check if it's a video
+  const isVideo = coverImage?.endsWith('.mp4') || false;
   const { scrollY } = useScroll();
 
   // Parallax effect for background image
@@ -22,7 +24,7 @@ export const MagazineCover = ({
         style={{ y }}
         className="absolute inset-0"
       >
-        {coverImage?.endsWith('.mp4') ? (
+        {isVideo ? (
           <>
             <video
               src={coverImage}
@@ -31,6 +33,7 @@ export const MagazineCover = ({
               loop
               playsInline
               autoPlay
+              poster=""
             />
             <div className="absolute inset-0 bg-black/50" />
           </>
