@@ -47,7 +47,7 @@ const AppComponent = () => {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white overflow-x-hidden">
-      <GoogleAnalytics measurementId="G-8HKPESQ2L4" />
+      {/* <GoogleAnalytics measurementId="G-8HKPESQ2L4" /> */}
 
       {showPreloader && <Preloader onComplete={handlePreloaderComplete} />}
 

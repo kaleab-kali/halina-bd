@@ -59,7 +59,7 @@ const PrescriptionOpeningComponent = ({
           >
             <div className="border-b-2 border-gray-300 pb-4 mb-6">
               <h2 className="text-2xl font-serif text-[#DC143C] font-bold">
-                \u211E Medical Prescription
+                 Medical Prescription
               </h2>
             </div>
 

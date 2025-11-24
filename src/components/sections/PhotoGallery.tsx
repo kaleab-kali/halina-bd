@@ -237,7 +237,7 @@ const PhotoGalleryComponent = () => {
           className="text-center mb-16"
         >
           <p className="text-[#FFB6C1] text-sm md:text-base tracking-[0.3em] uppercase mb-4">Magazine Moments</p>
-          <h2 className="text-4xl md:text-6xl font-serif font-bold text-white mb-6">Moments with Helina</h2>
+          <h2 className="text-4xl md:text-6xl font-serif font-bold text-white mb-6">Elegance of Helina</h2>
           <div className="h-1 w-48 mx-auto bg-gradient-to-r from-[#DC143C] via-[#FFB6C1] to-[#D4AF37]" />
           <p className="text-gray-400 text-lg mt-6">Every moment tells a story of elegance and grace</p>
         </motion.div>
