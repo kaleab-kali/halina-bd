@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo, memo } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { GoogleAnalytics } from './components/GoogleAnalytics';
+// import { GoogleAnalytics } from './components/GoogleAnalytics';
 import { Preloader } from './components/Preloader';
 import { PrescriptionOpening } from './components/sections/PrescriptionOpening';
 import { MagazineCover } from './components/sections/MagazineCover';
