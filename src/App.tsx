@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo, memo } from 'react';
 import { AnimatePresence } from 'framer-motion';
+import { Analytics } from "@vercel/analytics/next"
 // import { GoogleAnalytics } from './components/GoogleAnalytics';
 import { Preloader } from './components/Preloader';
 import { PrescriptionOpening } from './components/sections/PrescriptionOpening';
@@ -73,6 +74,7 @@ const AppComponent = () => {
             senderName="Your Biggest Fan"
           />
           <SurpriseEnding />
+          <Analytics />
         </>
       )}
     </div>
