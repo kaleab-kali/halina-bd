@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useCallback, useMemo, memo } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { GoogleAnalytics } from './components/GoogleAnalytics';
 import { Preloader } from './components/Preloader';
@@ -16,56 +16,55 @@ import { FinalMessage } from './components/sections/FinalMessage';
 import { SurpriseEnding } from './components/sections/SurpriseEnding';
 import { getCoverImage, getHabeshaMedia, getFavoriteMedia } from './config/mediaConfig';
 
-function App() {
+const AppComponent = () => {
   const [showPreloader, setShowPreloader] = useState(true);
   const [showOpening, setShowOpening] = useState(false);
   const [showMainContent, setShowMainContent] = useState(false);
-  const coverImage = getCoverImage();
-  const habeshaMedia = getHabeshaMedia();
-  const favoriteMedia = getFavoriteMedia();
 
-  useEffect(() => {
-    document.body.style.overflow = showOpening || showPreloader ? 'hidden' : 'auto';
+  const coverImage = useMemo(() => getCoverImage(), []);
+  const habeshaMedia = useMemo(() => getHabeshaMedia(), []);
+  const favoriteMedia = useMemo(() => getFavoriteMedia(), []);
+
+  const handlePreloaderComplete = useCallback(() => {
+    setShowPreloader(false);
+    setShowOpening(true);
+  }, []);
+
+  const handleOpeningComplete = useCallback(() => {
+    setShowOpening(false);
+    setShowMainContent(true);
+    globalThis.document.body.style.overflow = 'auto';
+  }, []);
+
+  useMemo(() => {
+    globalThis.document.body.style.overflow = showOpening || showPreloader ? 'hidden' : 'auto';
     return () => {
-      document.body.style.overflow = 'auto';
+      globalThis.document.body.style.overflow = 'auto';
     };
   }, [showOpening, showPreloader]);
 
-  const handlePreloaderComplete = () => {
-    setShowPreloader(false);
-    setShowOpening(true);
-  };
-
-  const handleOpeningComplete = () => {
-    setShowOpening(false);
-    setShowMainContent(true);
-  };
+  const habeshaImages = useMemo(() => habeshaMedia.map((m) => m.src), [habeshaMedia]);
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white overflow-x-hidden">
-      {/* Google Analytics - Replace G-XXXXXXXXXX with your tracking ID */}
       <GoogleAnalytics measurementId="G-8HKPESQ2L4" />
 
-      {/* Preloader */}
       {showPreloader && <Preloader onComplete={handlePreloaderComplete} />}
 
       <AnimatePresence>
         {showOpening && (
-          <PrescriptionOpening
-            onComplete={handleOpeningComplete}
-            birthdayDate="November 24, 2025"
-          />
+          <PrescriptionOpening onComplete={handleOpeningComplete} birthdayDate="November 24, 2025" />
         )}
       </AnimatePresence>
 
       {showMainContent && (
         <>
-          <MagazineCover coverImage={coverImage?.src || '/images/1.jpg'} />
+          <MagazineCover coverImage={coverImage?.src || '/images/18.mp4'} />
           <IdentityReveal />
           <FavoriteChild image={favoriteMedia[0]?.src || '/images/62.png'} />
           <PillBottles />
           <PhotoGallery />
-          <HabeshaSpotlight images={habeshaMedia.map(m => m.src)} />
+          <HabeshaSpotlight images={habeshaImages} />
           <FlipCards />
           <MakeAWish />
           <Playlist />
@@ -78,6 +77,10 @@ function App() {
       )}
     </div>
   );
-}
+};
+
+AppComponent.displayName = 'App';
+
+const App = memo(AppComponent);
 
 export default App;

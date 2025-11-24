@@ -9,7 +9,7 @@ export interface MediaItem {
 // Auto-generate media list from assets/images
 export const mediaItems: MediaItem[] = [
   // Cover image (best photo for magazine cover)
-  { src: '/images/18.jpg', type: 'video', category: 'cover', compliment: 'Simply Stunning' },
+  { src: '/images/18.mp4', type: 'video', category: 'cover', compliment: 'Simply Stunning' },
 
 
   // Pharmacist/Professional (assign 5-8 media)

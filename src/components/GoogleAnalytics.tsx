@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useMemo, memo, useCallback } from 'react';
 
 declare global {
   interface Window {
@@ -8,45 +8,50 @@ declare global {
 }
 
 interface GoogleAnalyticsProps {
-  measurementId: string;
+  readonly measurementId: string;
 }
 
-export const GoogleAnalytics = ({ measurementId }: GoogleAnalyticsProps) => {
-  useEffect(() => {
+const GoogleAnalyticsComponent = ({ measurementId }: GoogleAnalyticsProps) => {
+  const initializeAnalytics = useCallback(() => {
     if (!measurementId || measurementId === 'G-XXXXXXXXXX') {
-      console.log('⚠️ Google Analytics: Add your Measurement ID in App.tsx');
       return;
     }
 
-    // Load Google Analytics script
-    const script1 = document.createElement('script');
-    script1.async = true;
-    script1.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
-    document.head.appendChild(script1);
+    const script = globalThis.document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+    globalThis.document.head.appendChild(script);
 
-    // Initialize gtag
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function gtag(...args: unknown[]) {
-      window.dataLayer?.push(args);
+    globalThis.window.dataLayer = globalThis.window.dataLayer || [];
+    globalThis.window.gtag = (...args: unknown[]) => {
+      globalThis.window.dataLayer?.push(args);
     };
-    window.gtag('js', new Date());
-    window.gtag('config', measurementId, {
-      page_path: window.location.pathname,
+    globalThis.window.gtag('js', new Date());
+    globalThis.window.gtag('config', measurementId, {
+      page_path: globalThis.window.location.pathname,
     });
 
-    console.log('✅ Google Analytics initialized:', measurementId);
-
     return () => {
-      script1.remove();
+      script.remove();
     };
   }, [measurementId]);
+
+  useMemo(() => {
+    initializeAnalytics();
+  }, [initializeAnalytics]);
 
   return null;
 };
 
-// Helper to track custom events
+GoogleAnalyticsComponent.displayName = 'GoogleAnalytics';
+
+export const GoogleAnalytics = memo(
+  GoogleAnalyticsComponent,
+  (prev, next) => prev.measurementId === next.measurementId
+);
+
 export const trackEvent = (eventName: string, eventParams?: Record<string, unknown>) => {
-  if (window.gtag) {
-    window.gtag('event', eventName, eventParams);
+  if (globalThis.window.gtag) {
+    globalThis.window.gtag('event', eventName, eventParams);
   }
 };

@@ -1,29 +1,30 @@
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useState, useMemo, useCallback, memo } from 'react';
 
 interface PrescriptionOpeningProps {
-  onComplete: () => void;
-  birthdayDate?: string;
+  readonly onComplete: () => void;
+  readonly birthdayDate?: string;
 }
 
-export const PrescriptionOpening = ({
+const PrescriptionOpeningComponent = ({
   onComplete,
   birthdayDate = "November 24, 2025"
 }: PrescriptionOpeningProps) => {
   const [showPrescription, setShowPrescription] = useState(false);
 
-  useEffect(() => {
-    // Start prescription animation after 1.5 seconds
-    const timer1 = setTimeout(() => setShowPrescription(true), 1500);
-
-    // Complete and transition after 10 seconds
-    const timer2 = setTimeout(() => onComplete(), 10000);
+  const setupTimers = useCallback(() => {
+    const timer1 = globalThis.setTimeout(() => setShowPrescription(true), 1500);
+    const timer2 = globalThis.setTimeout(() => onComplete(), 10000);
 
     return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
+      globalThis.clearTimeout(timer1);
+      globalThis.clearTimeout(timer2);
     };
   }, [onComplete]);
+
+  useMemo(() => {
+    setupTimers();
+  }, [setupTimers]);
 
   return (
     <motion.div
@@ -32,7 +33,6 @@ export const PrescriptionOpening = ({
       exit={{ opacity: 0 }}
       transition={{ duration: 1 }}
     >
-      {/* Background gradient animation */}
       <motion.div
         className="absolute inset-0"
         initial={{ background: '#0a0a0a' }}
@@ -40,9 +40,7 @@ export const PrescriptionOpening = ({
         transition={{ duration: 2 }}
       />
 
-      {/* Main content */}
       <div className="relative z-10 max-w-2xl mx-auto px-6 text-center">
-        {/* Title animation */}
         <motion.h1
           className="text-4xl md:text-6xl font-serif text-white mb-8"
           initial={{ opacity: 0, y: 20 }}
@@ -52,7 +50,6 @@ export const PrescriptionOpening = ({
           Prescription for an Extraordinary Year
         </motion.h1>
 
-        {/* Prescription pad */}
         {showPrescription && (
           <motion.div
             className="bg-white/95 backdrop-blur-sm rounded-lg p-8 shadow-2xl border-2 border-[#DC143C]"
@@ -60,14 +57,12 @@ export const PrescriptionOpening = ({
             animate={{ opacity: 1, scale: 1, rotateX: 0 }}
             transition={{ duration: 0.8 }}
           >
-            {/* Prescription header */}
             <div className="border-b-2 border-gray-300 pb-4 mb-6">
               <h2 className="text-2xl font-serif text-[#DC143C] font-bold">
-                ℞ Medical Prescription
+                \u211E Medical Prescription
               </h2>
             </div>
 
-            {/* Prescription details with typing effect */}
             <div className="text-left space-y-4 font-mono text-gray-800">
               <motion.div
                 initial={{ opacity: 0 }}
@@ -105,7 +100,6 @@ export const PrescriptionOpening = ({
               </motion.div>
             </div>
 
-            {/* Signature line */}
             <motion.div
               className="mt-8 pt-4 border-t border-gray-300"
               initial={{ opacity: 0 }}
@@ -120,7 +114,6 @@ export const PrescriptionOpening = ({
           </motion.div>
         )}
 
-        {/* Loading indicator */}
         <motion.div
           className="mt-8"
           initial={{ opacity: 0 }}
@@ -149,3 +142,10 @@ export const PrescriptionOpening = ({
     </motion.div>
   );
 };
+
+PrescriptionOpeningComponent.displayName = 'PrescriptionOpening';
+
+export const PrescriptionOpening = memo(
+  PrescriptionOpeningComponent,
+  (prev, next) => prev.onComplete === next.onComplete && prev.birthdayDate === next.birthdayDate
+);
